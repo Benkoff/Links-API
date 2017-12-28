@@ -49,9 +49,6 @@
                       "id": {
                         "type": "string"
                       },
-                      "user": {
-                        "type": "string"
-                      },
                       "url": {
                         "type": "string"
                       },
@@ -69,6 +66,12 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Links not found but may be available in the future."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       },
@@ -88,10 +91,13 @@
         },
         "responses": {
           "201": {
-            "description": "Link succesfully saved."
+            "description": "Link succesfully has been saved."
           },
           "400": {
-            "description": "Link hasn't been saved."
+            "description": "Link has not been saved."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       }
@@ -144,8 +150,14 @@
               }
             }
           },
+          "401": {
+            "description": "Authorization to get access to requested data is missing or invalid."
+          },
           "404": {
-            "description": "The Link does not exists."
+            "description": "The Link does not exist."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       },
@@ -169,8 +181,14 @@
           "400": {
             "description": "Invalid id supplied."
           },
+          "401": {
+            "description": "Authorization to get access to requested data is missing or invalid."
+          },
           "404": {
-            "description": "Link not found."
+            "description": "A link with the specified ID was not found."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       },
@@ -183,8 +201,14 @@
           "400": {
             "description": "Invalid id supplied."
           },
+          "401": {
+            "description": "Authorization to get access to requested data is missing or invalid."
+          },
           "404": {
-            "description": "Link not found."
+            "description": "A link with the specified ID was not found."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       }
@@ -262,8 +286,14 @@
           "400": {
             "description": "Invalid id supplied."
           },
+          "401": {
+            "description": "Authorization to get access to requested data is missing or invalid."
+          },
           "404": {
             "description": "The user has no links."
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       }

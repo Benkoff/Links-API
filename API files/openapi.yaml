@@ -37,8 +37,6 @@ paths:
                   properties:
                     id:
                       type: string
-                    user:
-                      type: string
                     url:
                       type: string
                     label:
@@ -47,6 +45,10 @@ paths:
                       type: string
                     active:
                       type: boolean
+        '404':
+          description: Links not found but may be available in the future.
+        5XX:
+          description: Unexpected error.
     post:
       summary: Save a link
       description: Adds a new link to the links list.
@@ -59,9 +61,11 @@ paths:
               $ref: '#/components/schemas/LinksRequestBody'
       responses:
         '201':
-          description: Link succesfully saved.
+          description: Link succesfully has been saved.
         '400':
-          description: Link hasn't been saved.
+          description: Link has not been saved.
+        5XX:
+          description: Unexpected error.
   '/v1/links/{id}':
     parameters:
       - in: path
@@ -96,8 +100,12 @@ paths:
                     type: string
                   active:
                     type: boolean
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
         '404':
-          description: The Link does not exists.
+          description: The Link does not exist.
+        5XX:
+          description: Unexpected error.
     put:
       summary: Update an existing link by link`s id
       requestBody:
@@ -112,8 +120,12 @@ paths:
           description: Link succesfully updated.
         '400':
           description: Invalid id supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
         '404':
-          description: Link not found.
+          description: A link with the specified ID was not found.
+        5XX:
+          description: Unexpected error.
     delete:
       summary: Delete the link with the specified id.
       responses:
@@ -121,8 +133,12 @@ paths:
           description: Link was deleted.
         '400':
           description: Invalid id supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
         '404':
-          description: Link not found.
+          description: A link with the specified ID was not found.
+        5XX:
+          description: Unexpected error.
   '/v1/links/user/{user}':
     get:
       summary: Get all user`s links by user`s id
@@ -171,8 +187,12 @@ paths:
                       type: boolean
         '400':
           description: Invalid id supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
         '404':
           description: The user has no links.
+        5XX:
+          description: Unexpected error.
 components:
   schemas:
     LinksRequestBody:
