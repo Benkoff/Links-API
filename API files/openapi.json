@@ -8,7 +8,7 @@
   "servers": [
     {
       "url": "links.juja-platform.com.ua",
-      "description": "Fictional address to specify the API server and base -- to be changed later"
+      "description": "Fictional address to specify the API server -- to be changed later"
     }
   ],
   "paths": {
@@ -42,9 +42,6 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "required": [
-                      "id"
-                    ],
                     "properties": {
                       "id": {
                         "type": "string"
@@ -84,14 +81,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LinksRequestBody"
+                "description": "A JSON object containing link`s information",
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Link succesfully has been saved."
+            "description": "Link successfully has been saved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The link`s ID."
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "The link user has saved."
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "User given label"
+                    },
+                    "reference": {
+                      "type": "string",
+                      "description": "User assigned reference"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Link has not been saved."
@@ -176,7 +213,7 @@
         },
         "responses": {
           "201": {
-            "description": "Link succesfully updated."
+            "description": "Link successfully updated."
           },
           "400": {
             "description": "Invalid id supplied."
@@ -185,7 +222,7 @@
             "description": "Authorization to get access to requested data is missing or invalid."
           },
           "404": {
-            "description": "A link with the specified ID was not found."
+            "description": "A link with the specified id was not found."
           },
           "5XX": {
             "description": "Unexpected error."
@@ -193,7 +230,7 @@
         }
       },
       "delete": {
-        "summary": "Delete the link with the specified id.",
+        "summary": "Delete the link specified by it`s id.",
         "responses": {
           "204": {
             "description": "Link was deleted."
