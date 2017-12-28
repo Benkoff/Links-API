@@ -4,10 +4,12 @@ info:
   description: API for links microservice data exchange
   version: 0.1.0
 servers:
-  - url: api.links.juja-platform.com.ua
-    description: Some address to specify the API server and base -- to be changed later
+  - url: links.juja-platform.com.ua
+    description: >-
+      Fictional address to specify the API server and base -- to be changed
+      later
 paths:
-  /v1/links/:
+  /v1/links:
     get:
       summary: Get all links
       description: Returns a list containing saved links. The list supports paging.
@@ -71,7 +73,7 @@ paths:
           This resource represents an individual saved link. Each link is
           identified by a string 'id'
     get:
-      summary: Gets a link by link`s id
+      summary: Get a link by link`s id
       description: Returns a single link for its id
       responses:
         '200':
@@ -113,7 +115,7 @@ paths:
         '404':
           description: Link not found.
     delete:
-      summary: Deletes the link with the specified id.
+      summary: Delete the link with the specified id.
       responses:
         '204':
           description: Link was deleted.
@@ -195,4 +197,4 @@ components:
         url: 'https://swagger.io/docs/specification/describing-request-body/'
         label: Request body description
         reference: Open API
-        active: false
+        active: true
