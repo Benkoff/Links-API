@@ -5,9 +5,9 @@ info:
   version: 0.1.0
 servers:
   - url: api.links.juja-platform.com.ua
-    description: Optional address to specify the API server and base URL
+    description: Some address to specify the API server and base -- to be changed later
 paths:
-  /v1/links:
+  /v1/links/:
     get:
       summary: Get all links
       description: Returns a list containing saved links. The list supports paging.
@@ -29,72 +29,37 @@ paths:
             application/json:
               schema:
                 type: array
-              items:
-                required:
-                  - id
-              properties:
-                id:
-                  type: string
-                user:
-                  type: string
-                url:
-                  type: string
-                label:
-                  type: string
-                reference:
-                  type: string
-                active:
-                  type: boolean
+                items:
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
+                    user:
+                      type: string
+                    url:
+                      type: string
+                    label:
+                      type: string
+                    reference:
+                      type: string
+                    active:
+                      type: boolean
     post:
       summary: Save a link
       description: Adds a new link to the links list.
-      parameters:
-        - in: body
-          name: url
-          description: The url to save link.
-          schema:
-            required:
-              - url
-            properties:
-              user:
-                type: string
-              url:
-                type: string
-              label:
-                type: string
-              reference:
-                type: string
+      requestBody:
+        description: Link to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinksRequestBody'
       responses:
         '201':
           description: Link succesfully saved.
         '400':
           description: Link hasn't been saved.
-    put:
-      summary: Update an existing link
-      description: Link to be updated
-      parameters:
-        description: Id of the ink to be updated
-        schema:
-          required:
-            - id
-          properties:
-            id:
-              type: string
-            user:
-              type: string
-            url:
-              type: string
-            label:
-              type: string
-            reference:
-              type: string
-      responses:
-        '201':
-          description: Link succesfully updated.
-        '400':
-          description: Invalid ID supplied.
-        '404':
-          description: Link not found.
   '/v1/links/{id}':
     parameters:
       - in: path
@@ -131,46 +96,103 @@ paths:
                     type: boolean
         '404':
           description: The Link does not exists.
+    put:
+      summary: Update an existing link by link`s id
+      requestBody:
+        description: Link to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinksRequestBody'
+      responses:
+        '201':
+          description: Link succesfully updated.
+        '400':
+          description: Invalid id supplied.
+        '404':
+          description: Link not found.
+    delete:
+      summary: Deletes the link with the specified id.
+      responses:
+        '204':
+          description: Link was deleted.
+        '400':
+          description: Invalid id supplied.
+        '404':
+          description: Link not found.
   '/v1/links/user/{user}':
     get:
-      summary: Gets all user`s links by user`s id
+      summary: Get all user`s links by user`s id
       description: Returns a list containing saved links. The list supports paging.
       parameters:
-        - name: user
-          in: path
+        - in: path
+          name: user
           required: true
           description: The link's id
-          type: string
-        - name: pageSize
-          in: query
+          schema:
+            type: string
+        - in: query
+          name: pageSize
           description: Number of links returned
-          type: integer
-        - name: pageNumber
-          in: query
+          schema:
+            type: integer
+        - in: query
+          name: pageNumber
           description: Page number
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
-          description: A list of links
-          schema:
-            required:
-              - user
-            type: array
-            items:
-              required:
-                - id
-              properties:
-                id:
-                  type: string
-                user:
-                  type: string
-                url:
-                  type: string
-                label:
-                  type: string
-                reference:
-                  type: string
-                active:
-                  type: boolean
+          description: Links of the user.
+          content:
+            application/json:
+              schema:
+                required:
+                  - user
+                type: array
+                items:
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
+                    user:
+                      type: string
+                    url:
+                      type: string
+                    label:
+                      type: string
+                    reference:
+                      type: string
+                    active:
+                      type: boolean
+        '400':
+          description: Invalid id supplied.
         '404':
           description: The user has no links.
+components:
+  schemas:
+    LinksRequestBody:
+      description: A JSON object containing link`s information
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        url:
+          type: string
+        label:
+          type: string
+        reference:
+          type: string
+        active:
+          type: boolean
+      example:
+        id: 100500
+        user: asdfa64839412
+        url: 'https://swagger.io/docs/specification/describing-request-body/'
+        label: Request body description
+        reference: Open API
+        active: false

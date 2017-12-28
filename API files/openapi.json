@@ -1,0 +1,308 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Links API",
+    "description": "API for links microservice data exchange",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "api.links.juja-platform.com.ua",
+      "description": "Some address to specify the API server and base -- to be changed later"
+    }
+  ],
+  "paths": {
+    "/v1/links/": {
+      "get": {
+        "summary": "Get all links",
+        "description": "Returns a list containing saved links. The list supports paging.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of links returned"
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "reference": {
+                        "type": "string"
+                      },
+                      "active": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Save a link",
+        "description": "Adds a new link to the links list.",
+        "requestBody": {
+          "description": "Link to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LinksRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Link succesfully saved."
+          },
+          "400": {
+            "description": "Link hasn't been saved."
+          }
+        }
+      }
+    },
+    "/v1/links/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "This resource represents an individual saved link. Each link is identified by a string 'id'"
+        }
+      ],
+      "get": {
+        "summary": "Gets a link by link`s id",
+        "description": "Returns a single link for its id",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "reference": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Link does not exists."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing link by link`s id",
+        "requestBody": {
+          "description": "Link to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LinksRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Link succesfully updated."
+          },
+          "400": {
+            "description": "Invalid id supplied."
+          },
+          "404": {
+            "description": "Link not found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the link with the specified id.",
+        "responses": {
+          "204": {
+            "description": "Link was deleted."
+          },
+          "400": {
+            "description": "Invalid id supplied."
+          },
+          "404": {
+            "description": "Link not found."
+          }
+        }
+      }
+    },
+    "/v1/links/user/{user}": {
+      "get": {
+        "summary": "Get all user`s links by user`s id",
+        "description": "Returns a list containing saved links. The list supports paging.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user",
+            "required": true,
+            "description": "The link's id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "Number of links returned",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "description": "Page number",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Links of the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "user"
+                  ],
+                  "type": "array",
+                  "items": {
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "reference": {
+                        "type": "string"
+                      },
+                      "active": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id supplied."
+          },
+          "404": {
+            "description": "The user has no links."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LinksRequestBody": {
+        "description": "A JSON object containing link`s information",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "example": {
+          "id": 100500,
+          "user": "asdfa64839412",
+          "url": "https://swagger.io/docs/specification/describing-request-body/",
+          "label": "Request body description",
+          "reference": "Open API",
+          "active": false
+        }
+      }
+    }
+  }
+}
