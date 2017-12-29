@@ -13,6 +13,12 @@ paths:
       description: Returns a list containing saved links. The list supports paging.
       parameters:
         - in: query
+          name: activeOnly
+          required: true
+          schema:
+            type: boolean
+          description: Should be active only links returned (all the links if false)
+        - in: query
           name: pageSize
           schema:
             type: integer
@@ -33,14 +39,26 @@ paths:
                   properties:
                     id:
                       type: string
+                      description: link`s ID at database
+                    user:
+                      type: string
+                      description: >-
+                        the user which saved the link may be shown to everyone
+                        or may be not -- this field could be removed
                     url:
                       type: string
+                      description: the link saved before
                     label:
                       type: string
+                      description: given by user
                     reference:
                       type: string
+                      description: assigned by user
                     active:
                       type: boolean
+                      description: >-
+                        if activeOnly == true active links should be returned
+                        only, thus we may omit this field
         '404':
           description: Links not found but may be available in the future.
         5XX:
@@ -54,7 +72,10 @@ paths:
         content:
           application/json:
             schema:
-              description: A JSON object containing link`s information
+              description: >-
+                A JSON object containing link`s information, has no ID before
+                it`s saved, every just saved link is active by default -> no id
+                & active fields
               type: object
               properties:
                 user:
@@ -71,6 +92,9 @@ paths:
           content:
             application/json:
               schema:
+                description: >-
+                  The user is the same, every just saved link is active by
+                  default -> no user & active fields
                 type: object
                 properties:
                   id:
@@ -100,8 +124,8 @@ paths:
           This resource represents an individual saved link. Each link is
           identified by a string 'id'
     get:
-      summary: Get a link by link`s id
-      description: Returns a single link for its id
+      summary: Get a link by link`s ID
+      description: Returns a single link for its ID
       responses:
         '200':
           description: Ok
@@ -130,7 +154,7 @@ paths:
         5XX:
           description: Unexpected error.
     put:
-      summary: Update an existing link by link`s id
+      summary: Update an existing link by link`s ID
       requestBody:
         description: Link to be updated
         required: true
@@ -142,20 +166,20 @@ paths:
         '201':
           description: Link successfully updated.
         '400':
-          description: Invalid id supplied.
+          description: Invalid ID supplied.
         '401':
           description: Authorization to get access to requested data is missing or invalid.
         '404':
-          description: A link with the specified id was not found.
+          description: A link with the specified ID was not found.
         5XX:
           description: Unexpected error.
     delete:
-      summary: Delete the link specified by it`s id.
+      summary: Delete the link specified by it`s ID.
       responses:
         '204':
-          description: Link was deleted.
+          description: Link has been deleted.
         '400':
-          description: Invalid id supplied.
+          description: Invalid ID supplied.
         '401':
           description: Authorization to get access to requested data is missing or invalid.
         '404':
@@ -164,13 +188,13 @@ paths:
           description: Unexpected error.
   '/v1/links/user/{user}':
     get:
-      summary: Get all user`s links by user`s id
+      summary: Get all user`s links by user`s ID
       description: Returns a list containing saved links. The list supports paging.
       parameters:
         - in: path
           name: user
           required: true
-          description: The link's id
+          description: The link's ID
           schema:
             type: string
         - in: query
@@ -209,7 +233,7 @@ paths:
                     active:
                       type: boolean
         '400':
-          description: Invalid id supplied.
+          description: Invalid ID supplied.
         '401':
           description: Authorization to get access to requested data is missing or invalid.
         '404':
@@ -224,16 +248,22 @@ components:
       properties:
         id:
           type: string
+          description: link`s ID at database
         user:
           type: string
+          description: the user which saved the link
         url:
           type: string
+          description: the link been saved before
         label:
           type: string
+          description: a label given by user
         reference:
           type: string
+          description: a reference assigned by user
         active:
           type: boolean
+          description: active links only are visible to the user specified
       example:
         id: 100500
         user: asdfa64839412
