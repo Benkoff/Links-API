@@ -185,15 +185,16 @@ definitions:
   LinksPostRequestBody:
     description: >-
       A JSON object containing link`s information, has no ID before it`s saved,
-      every just saved link is active by default -> no id & active fields
+      every just saved link is active by default, so there is no id & active
+      fields
     type: object
     properties:
       user:
         type: string
-        description: the user which saved the link
+        description: the user saving the link
       url:
         type: string
-        description: the link been saved before
+        description: the link being saved
       label:
         type: string
         description: a label given by user
