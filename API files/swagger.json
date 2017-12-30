@@ -10,9 +10,6 @@
   "schemes": [
     "https"
   ],
-  "consumes": [
-    "application/json"
-  ],
   "produces": [
     "application/json"
   ],
@@ -26,9 +23,8 @@
           {
             "in": "query",
             "name": "activeOnly",
-            "required": true,
             "type": "boolean",
-            "description": "Should be active only links returned (all the links if false)"
+            "description": "Set true (default value) to return active links only, false to get all the links saved"
           },
           {
             "in": "query",
@@ -62,6 +58,9 @@
         "summary": "Save a link",
         "description": "Adds a new link to the links list.",
         "operationId": "",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
