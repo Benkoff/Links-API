@@ -1,0 +1,208 @@
+swagger: '2.0'
+info:
+  title: Links API
+  description: >-
+    API for links microservice data exchange.  Fictional host to be replaced
+    with real one
+  version: 0.1.0
+host: links.juja-platform.com.ua
+basePath: /v1
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /links:
+    get:
+      summary: Get all links
+      description: Returns a list containing saved links. The list supports paging.
+      operationId: ''
+      parameters:
+        - in: query
+          name: activeOnly
+          type: boolean
+          description: >-
+            Set true (default value) to return active links only, false to get
+            all the links saved
+        - in: query
+          name: pageSize
+          type: integer
+          description: Number of links returned
+        - in: query
+          name: pageNumber
+          type: integer
+          description: Page number
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/LinksRequestResponseBody'
+        '404':
+          description: Links not found but may be available in the future.
+        '500':
+          description: Unexpected error.
+    post:
+      summary: Save a link
+      description: Adds a new link to the links list.
+      operationId: ''
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: link
+          description: Link to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/LinksPostRequestBody'
+      responses:
+        '201':
+          description: Link successfully has been saved.
+          schema:
+            $ref: '#/definitions/LinksRequestResponseBody'
+        '400':
+          description: Link has not been saved.
+        '500':
+          description: Unexpected error.
+  '/links/{id}':
+    parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: >-
+          This resource represents an individual saved link. Each link is
+          identified by a string 'id'
+    get:
+      summary: Get a link by link`s ID
+      description: Returns a single link for its ID
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/LinksRequestResponseBody'
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
+        '404':
+          description: The Link does not exist.
+        '500':
+          description: Unexpected error.
+    put:
+      summary: Update an existing link by link`s ID
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: link
+          description: Link to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/LinksRequestResponseBody'
+      responses:
+        '201':
+          description: Link successfully updated.
+        '400':
+          description: Invalid ID supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
+        '404':
+          description: A link with the specified ID was not found.
+        '500':
+          description: Unexpected error.
+    delete:
+      summary: Delete the link specified by it`s ID.
+      responses:
+        '204':
+          description: Link has been deleted.
+        '400':
+          description: Invalid ID supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
+        '404':
+          description: A link with the specified ID was not found.
+        '500':
+          description: Unexpected error.
+  '/links/user/{user}':
+    get:
+      summary: Get all user`s links by user`s ID
+      description: Returns a list containing saved links. The list supports paging.
+      parameters:
+        - in: path
+          name: user
+          required: true
+          description: The link's ID
+          type: string
+        - in: query
+          name: pageSize
+          description: Number of links returned
+          type: integer
+        - in: query
+          name: pageNumber
+          description: Page number
+          type: integer
+      responses:
+        '200':
+          description: Links of the user.
+          schema:
+            $ref: '#/definitions/LinksRequestResponseBody'
+        '400':
+          description: Invalid ID supplied.
+        '401':
+          description: Authorization to get access to requested data is missing or invalid.
+        '404':
+          description: The user has no links.
+        '500':
+          description: Unexpected error.
+definitions:
+  LinksRequestResponseBody:
+    description: A JSON object containing link`s information
+    type: object
+    properties:
+      id:
+        type: string
+        description: link`s ID at database
+      user:
+        type: string
+        description: the user which saved the link
+      url:
+        type: string
+        description: the link been saved before
+      label:
+        type: string
+        description: a label given by user
+      reference:
+        type: string
+        description: a reference assigned by user
+      active:
+        type: boolean
+        description: active links only are visible to the user specified
+    example:
+      id: 100500
+      user: asdfa64839412
+      url: 'https://swagger.io/docs/specification/describing-request-body/'
+      label: Request body description
+      reference: Open API
+      active: true
+  LinksPostRequestBody:
+    description: >-
+      A JSON object containing link`s information, has no ID before it`s saved,
+      every just saved link is active by default, so there is no id & active
+      fields
+    type: object
+    properties:
+      user:
+        type: string
+        description: the user saving the link
+      url:
+        type: string
+        description: the link being saved
+      label:
+        type: string
+        description: a label given by user
+      reference:
+        type: string
+        description: a reference assigned by user
+    example:
+      user: asdfa64839412
+      url: 'https://swagger.io/docs/specification/describing-request-body/'
+      label: Request body description
+      reference: Open API
