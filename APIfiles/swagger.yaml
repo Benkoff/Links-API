@@ -13,7 +13,7 @@ paths:
   /links:
     get:
       summary: Get all links
-      description: Returns a list containing saved links. The list supports paging.
+      description: Returns a list containing saved links.
       operationId: ''
       responses:
         '200':
@@ -33,7 +33,7 @@ paths:
       parameters:
         - in: body
           name: link
-          description: Link to be updated
+          description: Link to be saved
           required: true
           schema:
             $ref: '#/definitions/PostRequest'
