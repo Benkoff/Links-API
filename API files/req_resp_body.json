@@ -1,0 +1,58 @@
+{
+    "RequestResponse": {
+      "description": "A JSON object containing link`s information",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "link`s ID at database"
+        },
+        "user": {
+          "type": "string",
+          "description": "the user which saved the link"
+        },
+        "url": {
+          "type": "string",
+          "description": "the link been saved before"
+        },
+        "label": {
+          "type": "string",
+          "description": "a label given by user"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "archived links are not visible to users"
+        }
+      },
+      "example": {
+        "id": 100500,
+        "user": "asdfa64839412",
+        "url": "https://swagger.io/docs/specification/describing-request-body/",
+        "label": "Saved link's label given by user",
+        "archived": false
+      }
+    },
+    "PostRequest": {
+      "description": "A JSON object containing link`s information, has no ID before it`s saved, every just saved link is not archived by default, so there is no id & active fields",
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "description": "the user which is saving the link"
+        },
+        "url": {
+          "type": "string",
+          "description": "the link being saved"
+        },
+        "label": {
+          "type": "string",
+          "description": "a label given by user"
+        }
+      },
+      "example": {
+        "user": "asdfa64839412",
+        "url": "https://swagger.io/docs/specification/describing-request-body/",
+        "label": "Saved link's label given by user"
+      }
+    }  
+}
